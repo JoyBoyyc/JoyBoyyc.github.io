@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>WAF动作 | JoyBoy</title><meta name="author" content="JoyBoy"><meta name="copyright" content="JoyBoy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="WAF每条规则都会配置动作，对命中规则的请求进行对应的处理。 每个WAF产品对动作定义不大一样。  ModSecurity定义了allow,  block, deny, drop, pass,  pause, proxy, redirect。   allow: 命中了某条规则后，不需要对请求&#x2F;响应应用其它规则，直接让请求通过。这个可以用于白名单。 block: 并不是一个真正的动作，它的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WAF动作">
+<meta property="og:url" content="https://joyboyyc.github.io.git/post/1efde2f.html">
+<meta property="og:site_name" content="JoyBoy">
+<meta property="og:description" content="WAF每条规则都会配置动作，对命中规则的请求进行对应的处理。 每个WAF产品对动作定义不大一样。  ModSecurity定义了allow,  block, deny, drop, pass,  pause, proxy, redirect。   allow: 命中了某条规则后，不需要对请求&#x2F;响应应用其它规则，直接让请求通过。这个可以用于白名单。 block: 并不是一个真正的动作，它的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joyboyyc.github.io.git/img/waf.jpg">
+<meta property="article:published_time" content="2022-11-21T06:51:29.000Z">
+<meta property="article:modified_time" content="2022-11-21T07:05:30.420Z">
+<meta property="article:author" content="JoyBoy">
+<meta property="article:tag" content="渗透">
+<meta property="article:tag" content="WAF">
+<meta property="article:tag" content="黑客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joyboyyc.github.io.git/img/waf.jpg"><link rel="shortcut icon" href="/img/caoshen.jpg"><link rel="canonical" href="https://joyboyyc.github.io.git/post/1efde2f"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WAF动作',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-11-21 15:05:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/universe.css"><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-clock/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/girl.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../img/waf.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JoyBoy</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WAF动作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-21T06:51:29.000Z" title="发表于 2022-11-21 14:51:29">2022-11-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-21T07:05:30.420Z" title="更新于 2022-11-21 15:05:30">2022-11-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/WAF/">WAF</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">805</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WAF动作"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>WAF每条规则都会配置动作，对命中规则的请求进行对应的处理。</p>
+<p>每个WAF产品对动作定义不大一样。</p>
+<ul>
+<li><p>ModSecurity定义了allow,  block, deny, drop, pass,  pause, proxy, redirect。</p>
+</li>
+<li><ul>
+<li>allow: 命中了某条规则后，不需要对请求&#x2F;响应应用其它规则，直接让请求通过。这个可以用于白名单。</li>
+<li>block: 并不是一个真正的动作，它的行为取决于配置的默认动作，如果默认动作更新，使用block的规则行为也随即改变。在安全响应方面，它可用于批量进行规则作为更新。</li>
+<li>deny: 中断规则处理，拦截请求&#x2F;响应。在客户端的角度来说，这个动作会返回4xx或5xx的状态码（取决于规则定义status)，但并没有中断当前的连接</li>
+<li>drop:  对当前tcp连接进行关闭操作，它和deny的不同是：deny之后，客户端仍然可以提交请求，但使用drop后，客户端只有重新连接才可以访问。这个动作可以节省后端服务的连接数</li>
+<li>pass: 命中某条规则继续匹配下一条规则。可用于对请求进行精细地过滤，但会对响应速度有较大影响。</li>
+<li>pause: 命中某条规则，对当前事务暂停指定的毫秒。一般用于防止登录爆破。如果遭受DDOS攻击，会恶化整个web服务的响应速度</li>
+<li>proxy:  把命中规则的请求转发到另外一个web服务去。这个功能类似反向代理。由于它对客户端完全来说，完全是无感知，可以用它导向请求到蜜罐系统。这个动作是一个非常优秀的动作。</li>
+<li>redirect: 当规则被命中，它会返回一个重定向，指示浏览器访问另外一个url。它和proxy的区别是，它对客户端是感知。可用于配置新上线接口或屏蔽某些有问题的接口。</li>
+</ul>
+</li>
+<li><p>Naxsi定义了accept, block, drop。</p>
+</li>
+<li><ul>
+<li>accept: 对应ModSecurity的allow， 一旦命中立马放行</li>
+<li>block: 对应ModSecurity的deny</li>
+<li>drop: 对应ModSecurity的drop</li>
+</ul>
+</li>
+<li><p>华为云WAF定义了allow, deny, , redirect</p>
+</li>
+<li><ul>
+<li>accept: 对应ModSecurity的allow， 一旦命中立马放行</li>
+<li>deny: 对应ModSecurity的deny, 默认返回418</li>
+<li>redirect: 对应Modsecurity的redirect</li>
+</ul>
+</li>
+<li><p>openrestyl lua WAF定义了allow, deny，drop， redirect</p>
+</li>
+<li><ul>
+<li>accept: 对应ModSecurity的allow， 一旦命中立马放行</li>
+<li>deny: 对应ModSecurity的deny， 默认返回403</li>
+<li>drop: 对应ModSecurity的drop</li>
+<li>redirect: 对应Modsecurity的redirect</li>
+</ul>
+</li>
+</ul>
+<p>其中华为云WAF和openresty lua WAF，在实现pass动作，都是通过规则组来实现。</p>
+<p>对于动作配置方面，有这样的建议：</p>
+<ol>
+<li>在功能开发方面，drop最好能够先返回一个状态码再停止掉整个连接，drop, deny状态码尽量可以通过规则配置。</li>
+<li>在配置规则时，对于drop, deny的状态码，每条规则或规则组都返回不同的状态码。</li>
+</ol>
+<p>这样做的好处是：</p>
+<ol>
+<li>有效隐藏WAF的特征，让攻击者无法确认是否有WAF存在</li>
+<li>当出现规则误拦截时，可以根据返回码快速定位是哪条规则误拦截。这是从无数次背锅感悟出来的血的教训</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://JoyBoyyc.github.io.git">JoyBoy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://joyboyyc.github.io.git/post/1efde2f.html">https://joyboyyc.github.io.git/post/1efde2f.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://JoyBoyyc.github.io.git" target="_blank">JoyBoy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%97%E9%80%8F/">渗透</a><a class="post-meta__tags" href="/tags/WAF/">WAF</a><a class="post-meta__tags" href="/tags/%E9%BB%91%E5%AE%A2/">黑客</a></div><div class="post_share"><div class="social-share" data-image="/../img/waf.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/2e79c2f6.html"><img class="prev-cover" src="/../img/waf.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">WAF规则与报表</div></div></a></div><div class="next-post pull-right"><a href="/post/8fa5a9a7.html"><img class="next-cover" src="/../img/waf.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">WAF规则引擎原理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/post/cb1e8a53.html" title="WAF功能"><img class="cover" src="/../img/waf.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-20</div><div class="title">WAF功能</div></div></a></div><div><a href="/post/8fa5a9a7.html" title="WAF规则引擎原理"><img class="cover" src="/../img/waf.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-20</div><div class="title">WAF规则引擎原理</div></div></a></div><div><a href="/post/7e05e6c.html" title="WAF工作模式"><img class="cover" src="/../img/waf.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-20</div><div class="title">WAF工作模式</div></div></a></div><div><a href="/post/a5adcfb3.html" title="WAF部署"><img class="cover" src="/../img/waf.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-20</div><div class="title">WAF部署</div></div></a></div><div><a href="/post/2e79c2f6.html" title="WAF规则与报表"><img class="cover" src="/../img/waf.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-21</div><div class="title">WAF规则与报表</div></div></a></div><div><a href="/post/aacb6023.html" title="WAF特征"><img class="cover" src="/../img/waf.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-21</div><div class="title">WAF特征</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/girl.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">JoyBoy</div><div class="author-info__description">知足者常乐</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://haiyong.site/moyu/"><i class="iconfont icon-youxishoubing"></i><span></span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JoyBoyyc/JoyBoyyc.github.io" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:chen_yfig@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p align="center"><img src="https://img-blog.csdnimg.cn/f7384c88956d4378b72e47548e19c9f8.gif" width="50" alt="mao"></p> <p align="center">微信号：joy_boy_c</p> <p align="center">QQ号：1504682120</p></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/aacb6023.html" title="WAF特征"><img src="/../img/waf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WAF特征"/></a><div class="content"><a class="title" href="/post/aacb6023.html" title="WAF特征">WAF特征</a><time datetime="2022-11-21T07:19:20.000Z" title="发表于 2022-11-21 15:19:20">2022-11-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/2e79c2f6.html" title="WAF规则与报表"><img src="/../img/waf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WAF规则与报表"/></a><div class="content"><a class="title" href="/post/2e79c2f6.html" title="WAF规则与报表">WAF规则与报表</a><time datetime="2022-11-21T07:12:32.000Z" title="发表于 2022-11-21 15:12:32">2022-11-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/1efde2f.html" title="WAF动作"><img src="/../img/waf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WAF动作"/></a><div class="content"><a class="title" href="/post/1efde2f.html" title="WAF动作">WAF动作</a><time datetime="2022-11-21T06:51:29.000Z" title="发表于 2022-11-21 14:51:29">2022-11-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/8fa5a9a7.html" title="WAF规则引擎原理"><img src="/../img/waf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WAF规则引擎原理"/></a><div class="content"><a class="title" href="/post/8fa5a9a7.html" title="WAF规则引擎原理">WAF规则引擎原理</a><time datetime="2022-11-20T14:19:24.000Z" title="发表于 2022-11-20 22:19:24">2022-11-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/7e05e6c.html" title="WAF工作模式"><img src="/../img/waf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WAF工作模式"/></a><div class="content"><a class="title" href="/post/7e05e6c.html" title="WAF工作模式">WAF工作模式</a><time datetime="2022-11-20T13:12:35.000Z" title="发表于 2022-11-20 21:12:35">2022-11-20</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../img/waf.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By JoyBoy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="/js/sun_moon.js" async></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://npm.elemecdn.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://npm.elemecdn.com/hexo-butterfly-clock/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>
